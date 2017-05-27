@@ -1,27 +1,30 @@
 //FOR TESTING THE FET
-
 void setup() {
   // put your setup code here, to run once:
-  Serial scon= new Serial(9600);
-  scon.writeLine("Waiting for A");
-  while(scon.read() != "A")
+  Serial.begin(9600);
+  Serial.println("Waiting for Serial");
+  while(!Serial.available())
   {delay(100);}
-  scon.writeLine("A for on, S for off");
+  Serial.println("A for on, S for off");
   pinMode(13,OUTPUT);
   
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  while(scon.availible();)
+  while(Serial.available())
   {
-    if(scon.read() ="A")
-      {
+    Serial.println(Serial.peek());
+    int res = Serial.read();
+    if(res == 97)
+    {
         digitalWrite(13,HIGH);
+        Serial.println("On");
       }
-     else if(scon.read() = "S")
+     else if(res == 115)
       {
-        digitalWrite(13,LOW); 
+        digitalWrite(13,LOW);
+        Serial.println("Off"); 
       }
   }
 }
