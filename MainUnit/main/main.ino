@@ -3,6 +3,9 @@
 #include <SoftwareSerial.h>
 SoftwareSerial rfSerial(2, 3); // RX, TX
 LiquidCrystal_PCF8574 lcd(0x27); //Set lcd address
+int score_init = 500; //inital scores
+int scoreR=0;
+int scoreB=0;
 
 void setup() {
   // put your setup code here, to run once:
@@ -13,6 +16,8 @@ void setup() {
   pinMode(10,OUTPUT);
   pinMode(4,INPUT_PULLUP);
   pinMode(5,INPUT_PULLUP);
+    scoreR=score_init;
+  scoreB=score_init;
 }
 
 int screentimer=0;
@@ -24,18 +29,15 @@ bool state[3]; //
 int team[3]; //1 -B, 2-R 0-N
 int screen =0;
 //>>>>>>> origin/master
-int scoreR=0;
-int scoreB=0;
+
 int ticketbleed3 = 5; //Score per tick if a team has full dominance
 int ticketbleed2 = 2; //Score per tick if a team has dominance
-int score_init = 500; //inital scores
+
 
 
 void loop() {
   checkInputs();
   screentimer++;
-  scoreR=score_init;
-  scoreB=score_init;
   int addr; //addr to send to ( 0-4 ) 
   bool type_flag; //Type flag, false for Request true for command
   //For Testing...
@@ -86,7 +88,7 @@ void loop() {
       {
         team[addr-1]=0;
       }
-      Serial.println(team[addr-1]);
+      //Serial.println(team[addr-1]);
     }
   }
   updateScores();
@@ -248,6 +250,8 @@ void lcdPointScreen()
 void updateScores()
 {
   int possesion;
+  Reddominance = 0;
+  Bluedominance = 0;  
   for (int x = 0; x < 2; x++)
   {
     if ((team[x]) == 1)
@@ -259,28 +263,28 @@ void updateScores()
       Bluedominance++;
     }
   }
-  Serial.println(Bluedominance);
-  Serial.println(Reddominance);
+  //Serial.println(Bluedominance);
+  //Serial.println(Reddominance);
   possesion = Bluedominance - Reddominance; //find who has more bases. 1 = blue has more -1 for red has more 2 or -2 means one has total dominance
-  Serial.println(possesion);
+  //Serial.println(possesion);
   switch (possesion) {
     case -3:
-      scoreB - ticketbleed3;
+      scoreB -= ticketbleed3;
       break;
     case -2:
-      scoreB - ticketbleed2;
+      scoreB -= ticketbleed2;
       break;
     case -1:  
-      scoreB - ticketbleed2;
+      scoreB -= ticketbleed2;
       break;
     case 1:
-      scoreR - ticketbleed2;
+      scoreR -= ticketbleed2;
       break;
     case 2:
-      scoreR - ticketbleed2;
+      scoreR -= ticketbleed2;
       break;  
     case 3:
-      scoreR - ticketbleed3;
+      scoreR -= ticketbleed3;
     break;
   }
 }
@@ -352,7 +356,7 @@ void lcdDominanceScreen()
 
 void updateLCD()
 {
-  Serial.println(screentimer);
+  //Serial.println(screentimer);
   if(screentimer>5)
   {
     screen++;
