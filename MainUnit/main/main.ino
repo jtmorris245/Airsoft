@@ -72,24 +72,25 @@ void loop() {
       String RecP =rfSerial.readString();
       Serial.println(RecP);
       state[addr-1]=true;
-      int Res[3];
-      parsePacket(RecP,0,Res);
-      Serial.println(char(Res));
-      if(char(Res[1])=='R')
+      String Res=parsePacket(RecP,0);
+      Serial.println(Res);
+      if(Res=="R")
       {
         team[addr-1]=2;
       }
-      else if(char(Res[1]) == 'B')
+      else if(Res == "B")
       {
         team[addr-1]=1;
       }
-      else if(char(Res[1]) =='N')
+      else if(Res =="N")
       {
         team[addr-1]=0;
       }
+      Serial.println(team[addr-1]);
     }
   }
   updateScores();
+  checkInputs();
   updateLCD();
   if(scoreR<0||scoreB<0) 
   {
@@ -136,13 +137,14 @@ void loop() {
 }
 
 
-void parsePacket(String packet,int addr_cur,int *Res)
+String parsePacket(String packet,int addr_cur)
 {
   int addr = packet.substring(0,1).toInt();
-  if(addr_cur != addr)
+  /*if(addr_cur != addr)
   { //Packet isn't for us, return null
-    return NULL;
+    return "";
   }
+  */
   bool type = packet.substring(1,2)=="R" ? false : true;
   byte Resp =0;
   if(packet.length() > 3)
@@ -151,10 +153,7 @@ void parsePacket(String packet,int addr_cur,int *Res)
     int len = packet.length() - 2;
     packet.substring(2,3).getBytes(Resp,len);
   }
-  Res[0]=addr;
-  Res[1]=(int)type;
-  Res[2]=(int)Resp;
-  
+  return packet.substring(2,3);
 }
 
 
@@ -260,8 +259,10 @@ void updateScores()
       Bluedominance++;
     }
   }
+  Serial.println(Bluedominance);
+  Serial.println(Reddominance);
   possesion = Bluedominance - Reddominance; //find who has more bases. 1 = blue has more -1 for red has more 2 or -2 means one has total dominance
-
+  Serial.println(possesion);
   switch (possesion) {
     case -3:
       scoreB - ticketbleed3;
@@ -351,6 +352,7 @@ void lcdDominanceScreen()
 
 void updateLCD()
 {
+  Serial.println(screentimer);
   if(screentimer>5)
   {
     screen++;
@@ -372,6 +374,11 @@ void updateLCD()
       lcdHeartBeat();
       break;
     }
+    case(2):
+    {
+      lcdDominanceScreen();
+      break;
+    }
     default:
     {
       lcdPointScreen();
@@ -382,14 +389,14 @@ void updateLCD()
 
 void checkInputs()
 {
-  if(digitalRead(4))
+  if(!digitalRead(4))
   {
     screen=1;
     updateLCD();
   }
   else
   {
-    screen=0;
+    //screen=0;
     updateLCD();
   }
   if(digitalRead(5))
@@ -433,8 +440,7 @@ void resetBases()
       delay(50);
       String RecP = String(rfSerial.read());
       state[addr]=false;
-      int Res[3];
-      parsePacket(RecP,0,Res);
+      String Res=parsePacket(RecP,0);
       
 
     }
