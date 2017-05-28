@@ -16,6 +16,8 @@ void setup() {
 bool state[3];
 bool team[3];
 int screen =0;
+int scoreR=0;
+int scoreB=0;
 
 
 void loop() {
@@ -27,7 +29,7 @@ void loop() {
   type_flag=false; //Request
   for(addr=1;addr<3;addr++)
   {
-    String Packet = createPacket(addr,type_flag,byte(1));
+    String Packet = createPacket(addr,type_flag,byte(0));
     Serial.println("Sending: "+Packet);
     rfSerial.println(Packet);
     //Wait upto 5 Seconds for response.
@@ -59,7 +61,7 @@ void loop() {
       parsePacket(RecP,0,Res);
       if(char(Res[1])=='B')
       {
-        //Give points to Blue here
+        
       }
       else
       {
@@ -199,16 +201,47 @@ void lcdHeartBeat()
   }
 }
 
+void lcdPointScreen()
+{
+  lcd.clear();
+  lcd.home();
+  lcd.print("SCORES AS THEY STAND");
+  lcd.setCursor(0,1);
+  lcd.print("    RED      BLUE   ");
+  String sr = String(scoreR);
+  String sb = String(scoreB);
+  lcd.setCursor(0,2);
+  String insideSpaces ="";
+  int i=0;
+  i = 10 - sr.length()-sb.length();
+  for(i=i;i!=0;i--)
+  {
+    insideSpaces += " ";
+  }
+  lcd.print("    "+sr+insideSpaces+sb);
+  if(sr=sb)
+  {
+    lcd.setCursor(0,3);
+    lcd.print("  Scores are Tied");
+  }
+  lcd.setCursor(0,3);
+  lcd.print(sr>sb?"   Red is Winning":"  Blue is Winning");
+}
+
 
 
 
 void updateLCD()
 {
+  screen=0;
+  lcdPointScreen();
+  /*
   switch(screen)
   {
     case(0):
     {
       //main score page
+      lcdPointScreen();
     }
     case(1):
     {
@@ -217,6 +250,7 @@ void updateLCD()
     }
   }
   screen=(screen+1)%2;
+  */
 }
 
 
