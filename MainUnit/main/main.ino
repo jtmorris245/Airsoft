@@ -30,7 +30,7 @@ void loop() {
   //For Testing...
   Serial.println("Polling Each Address for Current Score...");
   type_flag=false; //Request
-  for(addr=1;addr<3;addr++)
+  for(addr=1;addr=<3;addr++)
   {
     String Packet = createPacket(addr,type_flag,byte(0));
     Serial.println("Sending: "+Packet);
@@ -38,7 +38,7 @@ void loop() {
     //Wait upto 5 Seconds for response.
     int i = 0;
     bool rec = false;
-    for(i=0;i<3;i++)
+    for(i=0;i<5;i++)
     {
       if(rfSerial.available())
       {
@@ -51,24 +51,26 @@ void loop() {
     if(!rec)
     {
       Serial.println("No Packet recieved in 5 Seconds from Addr #" + addr);
-      state[addr]=false;
+      state[addr-1]=false;
       continue;
     }
     else
     {
       
       delay(50);
-      String RecP = String(rfSerial.read());
-      state[addr]=true;
+      String RecP =rfSerial.readString();
+      Serial.println(RecP);
+      state[addr-1]=true;
       int Res[3];
       parsePacket(RecP,0,Res);
+      Serial.println(char(Res));
       if(char(Res[1])=='R')
       {
-        team[addr]=true;
+        team[addr-1]=true;
       }
       else
       {
-        team[addr]=false;
+        team[addr-1]=false;
       }
     }
   }
@@ -79,7 +81,7 @@ void loop() {
   //TODO: Do Horn Blasts.
   //TODO: Reset Condition
   //Reset all Slaves
-  addr=0;
+ /* addr=0;
   type_flag=true; //Command
   byte cmd = byte('R'); // R for Reset
   for(addr=1;addr<4;addr++)
@@ -117,6 +119,7 @@ void loop() {
     }
     
   }
+  */
   
   
 }
@@ -194,12 +197,12 @@ void lcdHeartBeat()
   lcd.clear();
   lcd.home();
   lcd.setBacklight(255);
-  lcd.print("Heart Beat");
+  lcd.print("     Heart Beat     ");
   int i=0;
   for(i=0;i<3;i++)
   {
     lcd.setCursor(0,i+1);
-    lcd.print("B"+String(i)+" ");
+    lcd.print("B"+String(i+1)+" ");
     lcd.print(state[i]?"  PULSE ACTIVE  ":" PULSE INACTIVE ");
     
   }
@@ -258,6 +261,7 @@ void updateScores()
 
 void updateLCD()
 {
+  screen =1;
   switch(screen)
   {
     case(0):
