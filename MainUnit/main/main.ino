@@ -10,6 +10,9 @@ void setup() {
   rfSerial.begin(1200);
   lcdSetup();
   lcdShowStartGame();
+  pinMode(10,OUTPUT);
+  pinMode(4,INPUT_PULLUP);
+  pinMode(5,INPUT_PULLUP);
 }
 
 int screentimer=0;
@@ -88,7 +91,26 @@ void loop() {
   }
   updateScores();
   updateLCD();
-  
+  if(scoreR<0||scoreB<0) 
+  {
+    endgame();
+    digitalWrite(10,HIGH);
+    delay(250);
+    digitalWrite(10,LOW);
+    delay(250);
+    digitalWrite(10,HIGH);
+    delay(250);
+    digitalWrite(10,LOW);
+    digitalWrite(10,HIGH);
+    delay(2000);
+    digitalWrite(10,LOW);
+    while(!digitalRead(5))
+    {
+      delay(250);
+      resetBases();
+    }
+    
+  }
   
   
   
@@ -110,47 +132,7 @@ void loop() {
   
   
   //Reset all Slaves
- /* addr=0;
-  type_flag=true; //Command
-  byte cmd = byte('R'); // R for Reset
-  for(addr=1;addr<4;addr++)
-  {
-    String Packet = createPacket(addr,type_flag,cmd);
-    Serial.println("Sending Reset Command Packet:"+String(Packet));
-    rfSerial.println(Packet);
-    int i =0;
-    bool rec = false;
-    for(i=0;i<5;i++)
-    {
-      if(rfSerial.available())
-      {
-        rec=true;
-        state[addr]=true;
-        break;
-      }
-      updateLCD();
-      delay(1000);
-    }
-    if(!rec)
-    {
-      Serial.println("No Packet recieved in 5 Seconds from Addr #" + addr);
-      continue;
-    }
-    else
-    {
-      delay(50);
-      String RecP = String(rfSerial.read());
-      state[addr]=false;
-      int Res[3];
-      parsePacket(RecP,0,Res);
-      
-
-    }
-    
-  }
-  */
-  
-  
+ 
 }
 
 
@@ -418,7 +400,50 @@ void checkInputs()
 
 
 
+void resetBases()
+{
+  int addr=0;
+  bool type_flag=true; //Command
+  byte cmd = byte('R'); // R for Reset
+  for(addr=1;addr<4;addr++)
+  {
+    String Packet = createPacket(addr,type_flag,cmd);
+    Serial.println("Sending Reset Command Packet:"+String(Packet));
+    rfSerial.println(Packet);
+    int i =0;
+    bool rec = false;
+    for(i=0;i<5;i++)
+    {
+      if(rfSerial.available())
+      {
+        rec=true;
+        state[addr]=true;
+        break;
+      }
+      updateLCD();
+      delay(1000);
+    }
+    if(!rec)
+    {
+      Serial.println("No Packet recieved in 5 Seconds from Addr #" + addr);
+      continue;
+    }
+    else
+    {
+      delay(50);
+      String RecP = String(rfSerial.read());
+      state[addr]=false;
+      int Res[3];
+      parsePacket(RecP,0,Res);
+      
 
+    }
+    
+  }
+  
+  
+  
+}
 
 
 
