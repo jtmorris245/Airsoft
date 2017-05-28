@@ -18,10 +18,13 @@ bool team[3];
 int screen =0;
 int scoreR=0;
 int scoreB=0;
+int spt = 5; //Score per tick
+int score_init = 500; //inital scores
 
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  scoreR=score_init;
+  scoreB=score_init;
   int addr; //addr to send to ( 0-4 ) 
   bool type_flag; //Type flag, false for Request true for command
   //For Testing...
@@ -214,7 +217,7 @@ void lcdPointScreen()
   lcd.setCursor(0,2);
   String insideSpaces ="";
   int i=0;
-  i = 10 - sr.length()-sb.length();
+  i = 9 - sr.length();
   for(i=i;i!=0;i--)
   {
     insideSpaces += " ";
@@ -231,8 +234,9 @@ void lcdPointScreen()
 
 void updateScores()
 {
-  state[1]=true;
-  team[1]=false;
+  //TEST STATEMENTS
+  //state[1]=true;
+  //team[1]=false;
   //update scores using status and team.
   int i =1;
   for(i=1;i<3;i++)
@@ -241,11 +245,11 @@ void updateScores()
     {
       if(team[i])
       {
-        scoreR++;
+        scoreR -=spt;
       }
       else
       {
-        scoreB++;
+        scoreB -=spt;
       }
     }
   }
