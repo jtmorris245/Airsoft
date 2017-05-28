@@ -13,17 +13,14 @@ void setup() {
 }
 
 
-<<<<<<< HEAD
-bool state[3]; //whether or not base is replying
-bool team[3]; //Who has the base 0 neutral 1 for blue 2 red 
+//<<<<<<< HEAD
+
 int Reddominance; //how many bases red have captured
 int Bluedominance;
-int screen =0; //zero for scores, 1 for heartbeat
-=======
 bool state[3]; //
 int team[3]; //1 -B, 2-R 0-N
 int screen =0;
->>>>>>> origin/master
+//>>>>>>> origin/master
 int scoreR=0;
 int scoreB=0;
 int spt = 5; //Score per tick
