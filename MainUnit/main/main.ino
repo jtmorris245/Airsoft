@@ -13,11 +13,17 @@ void setup() {
 }
 
 
+<<<<<<< HEAD
 bool state[3]; //whether or not base is replying
 bool team[3]; //Who has the base 0 neutral 1 for blue 2 red 
 int Reddominance; //how many bases red have captured
 int Bluedominance;
 int screen =0; //zero for scores, 1 for heartbeat
+=======
+bool state[3]; //
+int team[3]; //1 -B, 2-R 0-N
+int screen =0;
+>>>>>>> origin/master
 int scoreR=0;
 int scoreB=0;
 int spt = 5; //Score per tick
@@ -68,11 +74,15 @@ void loop() {
       Serial.println(char(Res));
       if(char(Res[1])=='R')
       {
-        team[addr-1]=true;
+        team[addr-1]=2;
       }
-      else
+      else if(char(Res[1]) == 'B')
       {
-        team[addr-1]=false;
+        team[addr-1]=1;
+      }
+      else if(char(Res[1]) =='N')
+      {
+        team[addr-1]=0;
       }
     }
   }
@@ -272,6 +282,10 @@ void updateScores()
   
 }
 
+void lcdDominanceScreen()
+{
+  
+}
 
 void updateLCD()
 {
