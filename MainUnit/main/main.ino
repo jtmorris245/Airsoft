@@ -300,6 +300,27 @@ void updateScores()
   }
 }
 
+//================================================================
+void endgame()
+{
+  if (scoreB < 0)
+  {
+    lcd.clear();
+    lcd.home();
+    lcd.print("   GAME OVER   ");
+    lcd.print("   Red Team wins   ");
+    lcd.setCursor( 0,1);
+  }
+  if (scoreR < 0)
+  {
+    lcd.clear();
+    lcd.home();
+    lcd.print("   GAME OVER   ");
+    lcd.print("   Red Team wins   ");
+    lcd.setCursor(0,1);
+  }
+}
+
 void lcdDominanceScreen()
 {
   
