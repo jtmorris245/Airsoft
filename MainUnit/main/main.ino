@@ -59,16 +59,17 @@ void loop() {
       state[addr]=true;
       int Res[3];
       parsePacket(RecP,0,Res);
-      if(char(Res[1])=='B')
+      if(char(Res[1])=='R')
       {
-        
+        team[addr]=true;
       }
       else
       {
-        //give points to Red.
+        team[addr]=false;
       }
     }
   }
+  updateScores();
 
   updateLCD();
   //TODO: Check win condition.
@@ -81,7 +82,7 @@ void loop() {
   for(addr=1;addr<4;addr++)
   {
     String Packet = createPacket(addr,type_flag,cmd);
-    Serial.println("Sending Reset Command Packet:"+Packet);
+    Serial.println("Sending Reset Command Packet:"+String(Packet));
     rfSerial.println(Packet);
     int i =0;
     bool rec = false;
@@ -228,29 +229,51 @@ void lcdPointScreen()
   lcd.print(sr>sb?"   Red is Winning":"  Blue is Winning");
 }
 
-
+void updateScores()
+{
+  state[1]=true;
+  team[1]=false;
+  //update scores using status and team.
+  int i =1;
+  for(i=1;i<3;i++)
+  {
+    if(state[i])
+    {
+      if(team[i])
+      {
+        scoreR++;
+      }
+      else
+      {
+        scoreB++;
+      }
+    }
+  }
+}
 
 
 void updateLCD()
 {
-  screen=0;
-  lcdPointScreen();
-  /*
   switch(screen)
   {
     case(0):
     {
       //main score page
       lcdPointScreen();
+      break;
     }
     case(1):
     {
       //heartbeat page
       lcdHeartBeat();
+      break;
+    }
+    default:
+    {
+      lcdPointScreen();
+      break;
     }
   }
-  screen=(screen+1)%2;
-  */
 }
 
 
