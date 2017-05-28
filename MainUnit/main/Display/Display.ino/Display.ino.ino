@@ -5,33 +5,84 @@ LiquidCrystal_PCF8574 lcd(0x27);  // set the LCD address to 0x27 for a 16 chars 
 
 int show;
 
-void setup()
+void lcdSetup()
 {
   int error;
-
-  Serial.begin(9600);
-  Serial.println("LCD...");
-
-  while (! Serial);
-
-  Serial.println("Dose: check for LCD");
-
-  // See http://playground.arduino.cc/Main/I2cScanner
   Wire.begin();
   Wire.beginTransmission(0x27);
-  error = Wire.endTransmission();
-  Serial.print("Error: ");
-  Serial.print(error);
+  error=Wire.endTransmission();
+  if(error ==0)
+  {
+    return;
+  }
+  lcd.begin(20,4,LCD_5x8DOTS);
+  lcd.setBacklight(255);
+  lcd.clear();
+  lcd.home();
+  lcd.print("Starting...");
+  
+}
 
-  if (error == 0) {
-    Serial.println(": LCD found.");
+void lcdShowHeartbeat()
+{
+  lcd.clear();
+    lcd.print("Base Heartbeat");
+    bool states[3] = {true,false,true};
+    bool teams[3] = {true,false,true};
+    String strings[3];
+    
+    delay(100);
+    
+    int i=0;
+    
+    lcd.setCursor(0,i+1);
+    strings[i]="B";
+    strings[i]+=String(i+1);
+    strings[i]+=states[i]?"  ACTIVE ":" INACTIVE";
+    strings[i]+=teams[i]?" RED  ":" BLUE ";
+    lcd.print(strings[i]);
+    delay(500);
+    Serial.println(i);
+    i++;
 
-  } else {
-    Serial.println(": LCD not found.");
-  } // if
+    lcd.setCursor(0,i+1);
+    strings[i]="B";
+    strings[i]+=String(i+1);
+    strings[i]+=states[i]?"  ACTIVE ":" INACTIVE";
+    strings[i]+=teams[i]?" RED  ":" BLUE ";
+    lcd.print(strings[i]);
+    delay(500);
+    Serial.println(i);
+    i++;
 
-  lcd.begin(16, 4); // initialize the lcd
-  show = 0;
+    lcd.setCursor(0,i+1);
+    strings[i]="B";
+    strings[i]+=String(i+1);
+    strings[i]+=states[i]?"  ACTIVE ":" INACTIVE";
+    strings[i]+=teams[i]?" RED  ":" BLUE ";
+    lcd.print(strings[i]);
+    Serial.println(i);
+    delay(500);
+}
+
+void setup()
+{
+  //lcdSetup();
+  int error;
+  Serial.begin(9600);
+  Wire.begin();
+  Wire.beginTransmission(0x27);
+  error=Wire.endTransmission();
+  if(error ==0)
+  {
+    return;
+  }
+  lcd.begin(20,4);
+  lcd.setBacklight(255);
+  lcd.clear();
+  lcd.home();
+  lcd.print("Starting...");
+  show=0;
 } // setup()
 
 void loop()
@@ -76,23 +127,9 @@ void loop()
       delay(400);
       lcd.setBacklight(255);
   } else if (show == 1) {
-    lcd.clear();
-    lcd.print("Game is Running");
-    bool states[4] = {true,false,true,false};
-    bool teams[4] = {true,false,true,false};
-    String strings[4];
-    
-    delay(100);
-    
-    int i=0;
-    
-    lcd.setCursor(0,1);
-    strings[i]="B";
-    strings[i]+=String(i);
-    strings[i]+=states[i]?"  UP  ":" DOWN ";
-    strings[i]+=teams[i]?" RED  ":" BLUE ";
-    lcd.print(strings[i]);
-    delay(500);
+    lcdShowHeartbeat();
+
+
     
 
   } else if (show == 2) {
