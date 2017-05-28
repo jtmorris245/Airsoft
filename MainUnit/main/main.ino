@@ -23,7 +23,8 @@ int screen =0;
 //>>>>>>> origin/master
 int scoreR=0;
 int scoreB=0;
-int spt = 5; //Score per tick
+int ticketbleed3 = 5; //Score per tick if a team has full dominance
+int ticketbleed2 = 2; //Score per tick if a team has dominance
 int score_init = 500; //inital scores
 
 
@@ -276,7 +277,27 @@ void updateScores()
     }
   }
   possesion = Bluedominance - Reddominance; //find who has more bases. 1 = blue has more -1 for red has more 2 or -2 means one has total dominance
-  
+
+  switch (possesion) {
+    case -3:
+      scoreB - ticketbleed3;
+      break;
+    case -2:
+      scoreB - ticketbleed2;
+      break;
+    case -1:  
+      scoreB - ticketbleed2;
+      break;
+    case 1:
+      scoreR - ticketbleed2;
+      break;
+    case 2:
+      scoreR - ticketbleed2;
+      break;  
+    case 3:
+      scoreR - ticketbleed3;
+    break;
+  }
 }
 
 void lcdDominanceScreen()
