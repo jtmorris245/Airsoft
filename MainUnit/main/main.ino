@@ -13,9 +13,11 @@ void setup() {
 }
 
 
-bool state[3];
-bool team[3];
-int screen =0;
+bool state[3]; //whether or not base is replying
+bool team[3]; //Who has the base 0 neutral 1 for blue 2 red 
+int Reddominance; //how many bases red have captured
+int Bluedominance;
+int screen =0; //zero for scores, 1 for heartbeat
 int scoreR=0;
 int scoreB=0;
 int spt = 5; //Score per tick
@@ -254,25 +256,20 @@ void lcdPointScreen()
 
 void updateScores()
 {
-  //TEST STATEMENTS
-  //state[1]=true;
-  //team[1]=false;
-  //update scores using status and team.
-  int i =1;
-  for(i=1;i<3;i++)
+  int possesion;
+  for (int x = 0; x < 2; x++)
   {
-    if(state[i])
+    if ((team[x]) == 1)
     {
-      if(team[i])
-      {
-        scoreR -=spt;
-      }
-      else
-      {
-        scoreB -=spt;
-      }
+      Reddominance++;
+    }
+    else if((team[x]) == 2)
+    {
+      Bluedominance++;
     }
   }
+  possesion = Bluedominance - Reddominance; //find who has more bases. 1 = blue has more -1 for red has more 2 or -2 means one has total dominance
+  
 }
 
 
