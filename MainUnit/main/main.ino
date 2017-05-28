@@ -302,7 +302,45 @@ void updateScores()
 
 void lcdDominanceScreen()
 {
-  
+  lcd.clear();
+  lcd.home();
+  lcd.print("     DOMINANCE     ");
+  String s ="";
+  int i =0;
+  for(i=0;i<3;i++)
+  {
+    if(state[i])
+    {
+      switch(team[i])
+      {
+        case(0):
+        {
+          s="NEUTRAL";
+          break;
+        }
+        case(1):
+        {
+          s="  BLUE ";
+          break;
+        }
+        case(2):
+        {
+          s="  RED  ";
+          break;
+        }
+        default:
+        {
+          s=" ERROR ";
+          break;
+        }
+      }
+    }
+    else
+    {
+      s="DISCONN";
+    }
+    lcd.print("B"+String(i+1)+" : "+s);
+  }
 }
 
 void updateLCD()
