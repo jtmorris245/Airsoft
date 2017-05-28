@@ -30,7 +30,7 @@ void loop() {
   //For Testing...
   Serial.println("Polling Each Address for Current Score...");
   type_flag=false; //Request
-  for(addr=1;addr=<3;addr++)
+  for(addr=1;addr!=3;addr++)
   {
     String Packet = createPacket(addr,type_flag,byte(0));
     Serial.println("Sending: "+Packet);
@@ -75,11 +75,28 @@ void loop() {
     }
   }
   updateScores();
-
   updateLCD();
+  
+  
+  
+  
+  
+  
+  
   //TODO: Check win condition.
   //TODO: Do Horn Blasts.
   //TODO: Reset Condition
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   //Reset all Slaves
  /* addr=0;
   type_flag=true; //Command
@@ -261,7 +278,7 @@ void updateScores()
 
 void updateLCD()
 {
-  screen =1;
+  //screen =1;
   switch(screen)
   {
     case(0):
