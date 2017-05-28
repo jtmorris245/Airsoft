@@ -12,7 +12,7 @@ void setup() {
   lcdShowStartGame();
 }
 
-
+int screentimer=0;
 //<<<<<<< HEAD
 
 int Reddominance; //how many bases red have captured
@@ -29,6 +29,8 @@ int score_init = 500; //inital scores
 
 
 void loop() {
+  checkInputs();
+  screentimer++;
   scoreR=score_init;
   scoreB=score_init;
   int addr; //addr to send to ( 0-4 ) 
@@ -309,6 +311,7 @@ void lcdDominanceScreen()
   int i =0;
   for(i=0;i<3;i++)
   {
+    lcd.setCursor(0,i+1);
     if(state[i])
     {
       switch(team[i])
@@ -345,6 +348,12 @@ void lcdDominanceScreen()
 
 void updateLCD()
 {
+  if(screentimer>5)
+  {
+    screen++;
+    screentimer>5;
+  }
+  if(screen>3){screen=0;}
   //screen =1;
   switch(screen)
   {
@@ -368,8 +377,23 @@ void updateLCD()
   }
 }
 
-
-
+void checkInputs()
+{
+  if(digitalRead(4))
+  {
+    screen=1;
+    updateLCD();
+  }
+  else
+  {
+    screen=0;
+    updateLCD();
+  }
+  if(digitalRead(5))
+  {
+    //do reset
+  }
+}
 
 
 
