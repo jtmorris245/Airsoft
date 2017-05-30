@@ -30,8 +30,9 @@ int team[3]; //1 -B, 2-R 0-N
 int screen =0;
 //>>>>>>> origin/master
 
-int ticketbleed3 = 10; //Score per tick if a team has full dominance
-int ticketbleed2 = 5; //Score per tick if a team has dominance
+int ticketbleed3 = 15; //Score per tick if a team has full dominance
+int ticketbleed2 = 10; //Score per tick if a team has dominance
+int ticketbleed1 = 5;
 
 
 
@@ -272,10 +273,10 @@ void updateScores()
       scoreB -= ticketbleed2;
       break;
     case -1:  
-      scoreB -= ticketbleed2;
+      scoreB -= ticketbleed1;
       break;
     case 1:
-      scoreR -= ticketbleed2;
+      scoreR -= ticketbleed1;
       break;
     case 2:
       scoreR -= ticketbleed2;
