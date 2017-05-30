@@ -354,7 +354,7 @@ void lcdDominanceScreen()
 void updateLCD()
 {
   //Serial.println(screentimer);
-  if(screentimer > 2)
+  if(screentimer > 1)
   {
     screen++;
     screentimer=0;
@@ -403,6 +403,12 @@ void checkInputs()
   if(!digitalRead(5))
   {
     //do reset
+    resetBases();
+    lcd.clear();
+    lcd.home();
+    lcd.print("TURN OFF ");
+    lcd.setCursor(0,1);
+    lcd.print("AND ON TO RESTART");
   }
   //Serial.println("inputs");
   //Serial.println(digitalRead(4));
