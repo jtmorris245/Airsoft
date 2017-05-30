@@ -235,9 +235,11 @@ void lcdPointScreen()
   }
   lcd.print("    "+sr+insideSpaces+sb);
   if(sr=sb)
+  if(sr==sb)
   {
     lcd.setCursor(0,3);
     lcd.print("  Scores are Tied");
+    return;
   }
   lcd.setCursor(0,3);
   lcd.print(sr>sb?"   Red is Winning":"  Blue is Winning");
@@ -250,11 +252,11 @@ void updateScores()
   Bluedominance = 0;  
   for (int x = 0; x < 2; x++)
   {
-    if ((team[x]) == 1)
+    if ((team[x]) == 2)
     {
       Reddominance++;
     }
-    else if((team[x]) == 2)
+    else if((team[x]) == 1)
     {
       Bluedominance++;
     }
@@ -293,16 +295,16 @@ void endgame()
     lcd.clear();
     lcd.home();
     lcd.print("   GAME OVER   ");
-    lcd.print("   Red Team wins   ");
     lcd.setCursor( 0,1);
+    lcd.print("   Red Team wins   ");
   }
   if (scoreR < 0)
   {
     lcd.clear();
     lcd.home();
     lcd.print("   GAME OVER   ");
-    lcd.print("   Red Team wins   ");
     lcd.setCursor(0,1);
+    lcd.print("   Red Team wins   ");
   }
 }
 
