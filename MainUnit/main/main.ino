@@ -359,7 +359,7 @@ void updateLCD()
     screen++;
     screentimer=0;
   }
-  if(screen>2){screen=0;}
+  if(screen>4){screen=0;}
   //screen =1;
   switch(screen)
   {
@@ -378,6 +378,17 @@ void updateLCD()
     case(2):
     {
       lcdDominanceScreen();
+      break;
+    }
+    case(3):
+    {
+      lcdDominanceScreen();
+      break;
+    }
+    case(4):
+    {
+      //main score page
+      lcdPointScreen();
       break;
     }
     default:
