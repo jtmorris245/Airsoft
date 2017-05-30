@@ -382,7 +382,7 @@ void updateLCD()
     }
     case(3):
     {
-      lcdDominanceScreen();
+      lcdPointScreen();
       break;
     }
     case(4):
