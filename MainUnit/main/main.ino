@@ -63,7 +63,7 @@ void loop() {
     }
     if(!rec)
     {
-      Serial.println("No Packet recieved in 5 Seconds from Addr #" + addr);
+      Serial.println("FAIL");
       state[addr-1]=false;
       continue;
     }
@@ -73,9 +73,10 @@ void loop() {
       delay(50);
       String RecP =rfSerial.readString();
       Serial.println(RecP);
+      Serial.println("SUCCESS");
       state[addr-1]=true;
       String Res=parsePacket(RecP,0);
-      Serial.println(Res);
+      //Serial.println(Res);
       if(Res=="R")
       {
         team[addr-1]=2;
@@ -351,7 +352,7 @@ void lcdDominanceScreen()
 
 void updateLCD()
 {
-  Serial.println(screentimer);
+  //Serial.println(screentimer);
   if(screentimer > 2)
   {
     screen++;
@@ -402,9 +403,9 @@ void checkInputs()
   {
     //do reset
   }
-  Serial.println("inputs");
-  Serial.println(digitalRead(4));
-  Serial.println(digitalRead(5));
+  //Serial.println("inputs");
+  //Serial.println(digitalRead(4));
+  //Serial.println(digitalRead(5));
 }
 
 
@@ -434,7 +435,7 @@ void resetBases()
     }
     if(!rec)
     {
-      Serial.println("No Packet recieved in 5 Seconds from Addr #" + addr);
+      Serial.println("FAIL");
       continue;
     }
     else
