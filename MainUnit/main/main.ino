@@ -30,8 +30,8 @@ int team[3]; //1 -B, 2-R 0-N
 int screen =0;
 //>>>>>>> origin/master
 
-int ticketbleed3 = 5; //Score per tick if a team has full dominance
-int ticketbleed2 = 2; //Score per tick if a team has dominance
+int ticketbleed3 = 30; //Score per tick if a team has full dominance
+int ticketbleed2 = 15; //Score per tick if a team has dominance
 
 
 
