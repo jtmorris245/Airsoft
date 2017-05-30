@@ -234,7 +234,6 @@ void lcdPointScreen()
     insideSpaces += " ";
   }
   lcd.print("    "+sr+insideSpaces+sb);
-  if(sr=sb)
   if(sr==sb)
   {
     lcd.setCursor(0,3);
