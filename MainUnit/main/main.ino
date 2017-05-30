@@ -303,7 +303,7 @@ void endgame()
     lcd.home();
     lcd.print("   GAME OVER   ");
     lcd.setCursor(0,1);
-    lcd.print("   Red Team wins   ");
+    lcd.print("   Blue Team wins   ");
   }
 }
 
