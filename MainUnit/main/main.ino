@@ -249,7 +249,7 @@ void updateScores()
   int possesion;
   Reddominance = 0;
   Bluedominance = 0;  
-  for (int x = 0; x < 2; x++)
+  for (int x = 0; x != 4; x++)
   {
     if ((team[x]) == 2)
     {
