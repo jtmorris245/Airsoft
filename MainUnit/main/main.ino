@@ -43,7 +43,7 @@ void loop() {
   //For Testing...
   Serial.println("Polling Each Address for Current Score...");
   type_flag=false; //Request
-  for(addr=1;addr!=3;addr++)
+  for(addr=1;addr!=4;addr++)
   {
     String Packet = createPacket(addr,type_flag,byte(0));
     Serial.println("Sending: "+Packet);
@@ -107,6 +107,10 @@ void loop() {
     digitalWrite(10,HIGH);
     delay(2000);
     digitalWrite(10,LOW);
+    delay(250);
+    digitalWrite(10,HIGH);
+    delay(250);
+    digitalWrite(10,LOW);
     while(!digitalRead(5))
     {
       delay(250);
@@ -114,15 +118,6 @@ void loop() {
     }
     
   }
-  
-  
-  
-  
-  
-  
-  //TODO: Check win condition.
-  //TODO: Do Horn Blasts.
-  //TODO: Reset Condition
   
   
   
@@ -356,13 +351,13 @@ void lcdDominanceScreen()
 
 void updateLCD()
 {
-  //Serial.println(screentimer);
-  if(screentimer>5)
+  Serial.println(screentimer);
+  if(screentimer > 2)
   {
     screen++;
-    screentimer>5;
+    screentimer=0;
   }
-  if(screen>3){screen=0;}
+  if(screen>2){screen=0;}
   //screen =1;
   switch(screen)
   {
@@ -403,10 +398,13 @@ void checkInputs()
     //screen=0;
     updateLCD();
   }
-  if(digitalRead(5))
+  if(!digitalRead(5))
   {
     //do reset
   }
+  Serial.println("inputs");
+  Serial.println(digitalRead(4));
+  Serial.println(digitalRead(5));
 }
 
 
