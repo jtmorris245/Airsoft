@@ -289,7 +289,7 @@ void updateScores()
 //================================================================
 void endgame()
 {
-  if (scoreB < 0)
+  if (scoreR < 0)
   {
     lcd.clear();
     lcd.home();
@@ -297,7 +297,7 @@ void endgame()
     lcd.setCursor( 0,1);
     lcd.print("   Red Team wins   ");
   }
-  if (scoreR < 0)
+  if (scoreB < 0)
   {
     lcd.clear();
     lcd.home();
