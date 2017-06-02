@@ -12,13 +12,14 @@ void setup() {
   Serial.begin(9600);
   rfSerial.begin(1200);
   lcdSetup();
+  resetBases();
   lcdShowStartGame();
   pinMode(10,OUTPUT);
   pinMode(4,INPUT_PULLUP);
   pinMode(5,INPUT_PULLUP);
   scoreR=score_init;
   scoreB=score_init;
-  resetBases();
+  
 }
 
 int screentimer=0;
@@ -457,6 +458,7 @@ void resetBases()
     Serial.println("Sending Reset Command Packet:"+String(Packet));
     rfSerial.println(Packet);
     int i =0;    
+    delay(1000);
   }
   
   
