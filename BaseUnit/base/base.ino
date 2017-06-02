@@ -156,7 +156,8 @@ void loop() {
       }
       else if (ReqorCom == "C") {
          Serial.println("reset");
-         dominance = 0;      
+         dominance = 0;
+         baseCaptured();      
       }
     }
 

@@ -12,13 +12,14 @@ void setup() {
   Serial.begin(9600);
   rfSerial.begin(1200);
   lcdSetup();
+  resetBases();
   lcdShowStartGame();
   pinMode(10,OUTPUT);
   pinMode(4,INPUT_PULLUP);
   pinMode(5,INPUT_PULLUP);
   scoreR=score_init;
   scoreB=score_init;
-  resetBases();
+  
 }
 
 int screentimer=0;
@@ -456,34 +457,8 @@ void resetBases()
     String Packet = createPacket(addr,type_flag,cmd);
     Serial.println("Sending Reset Command Packet:"+String(Packet));
     rfSerial.println(Packet);
-    int i =0;
-    bool rec = false;
-    for(i=0;i<5;i++)
-    {
-      if(rfSerial.available())
-      {
-        rec=true;
-        state[addr]=true;
-        break;
-      }
-      updateLCD();
-      delay(1000);
-    }
-    if(!rec)
-    {
-      Serial.println("FAIL");
-      continue;
-    }
-    else
-    {
-      delay(50);
-      String RecP = String(rfSerial.read());
-      state[addr]=false;
-      String Res=parsePacket(RecP,0);
-      
-
-    }
-    
+    int i =0;    
+    delay(1000);
   }
   
   
