@@ -16,8 +16,9 @@ void setup() {
   pinMode(10,OUTPUT);
   pinMode(4,INPUT_PULLUP);
   pinMode(5,INPUT_PULLUP);
-    scoreR=score_init;
+  scoreR=score_init;
   scoreB=score_init;
+  resetBases();
 }
 
 int screentimer=0;
@@ -117,6 +118,10 @@ void loop() {
     {
       delay(250);
       resetBases();
+    }
+    while(true)
+    {
+      endgame();
     }
     
   }
@@ -373,7 +378,7 @@ void updateLCD()
     case(1):
     {
       //heartbeat page
-      lcdHeartBeat();
+      //lcdHeartBeat();
       break;
     }
     case(2):
