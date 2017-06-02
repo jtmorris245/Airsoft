@@ -3,7 +3,7 @@
 #include <SoftwareSerial.h>
 SoftwareSerial rfSerial(2, 3); // RX, TX
 LiquidCrystal_PCF8574 lcd(0x27); //Set lcd address
-int score_init = 500; //inital scores
+int score_init = 750; //inital scores
 int scoreR=0;
 int scoreB=0;
 
