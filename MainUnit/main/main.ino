@@ -456,34 +456,7 @@ void resetBases()
     String Packet = createPacket(addr,type_flag,cmd);
     Serial.println("Sending Reset Command Packet:"+String(Packet));
     rfSerial.println(Packet);
-    int i =0;
-    bool rec = false;
-    for(i=0;i<5;i++)
-    {
-      if(rfSerial.available())
-      {
-        rec=true;
-        state[addr]=true;
-        break;
-      }
-      updateLCD();
-      delay(1000);
-    }
-    if(!rec)
-    {
-      Serial.println("FAIL");
-      continue;
-    }
-    else
-    {
-      delay(50);
-      String RecP = String(rfSerial.read());
-      state[addr]=false;
-      String Res=parsePacket(RecP,0);
-      
-
-    }
-    
+    int i =0;    
   }
   
   
